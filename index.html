@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ativo Urbano — Render, identidade e lançamento imobiliário</title>
+  <meta name="description" content="Empreendimento bem apresentado vende mais rápido e sustenta preço. Render, identidade e redes sociais para incorporadoras." />
+
+  <style>
+    /* ── FONTES ────────────────────────────── */
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-ExtraLight.otf') format('opentype');
+      font-weight: 200; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-Light.otf') format('opentype');
+      font-weight: 300; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-Regular.otf') format('opentype');
+      font-weight: 400; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-Medium.otf') format('opentype');
+      font-weight: 500; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-Bold.otf') format('opentype');
+      font-weight: 700; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowText-Black.otf') format('opentype');
+      font-weight: 900; font-display: swap;
+    }
+    @font-face {
+      font-family: 'Supply';
+      src: url('public/fonts/PP SUPPLY MONO/PPSupplyMono-Variable.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN Display';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowDisplay-Lt.otf') format('opentype');
+      font-weight: 300; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN Display';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowDisplay-Regular.otf') format('opentype');
+      font-weight: 400; font-display: swap;
+    }
+    @font-face {
+      font-family: 'HN Display';
+      src: url('public/fonts/HELVETICA NOW/HelveticaNowDisplay-Md.otf') format('opentype');
+      font-weight: 500; font-display: swap;
+    }
+
+    /* ── TOKENS ────────────────────────────── */
+    :root {
+      --ink:   #0C0B0A;
+      --paper: #ECECED;
+      --pink:  #D1097C;
+      --cream: #FAFAF8;
+      --muted: #9A9690;
+      --dim:   #3E3D3C;
+      --hn:         'HN', Helvetica, Arial, sans-serif;
+      --hn-display: 'HN Display', 'HN', Helvetica, Arial, sans-serif;
+      --mono:  'Supply', 'Courier New', monospace;
+      --grid-gutter: 64px;
+      --grid-gap: 24px;
+      --grid-max: 1440px;
+    }
+
+    /* ── RESET ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--hn);
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    img, video { display: block; max-width: 100%; }
+    a { text-decoration: none; }
+
+    /* ── SCROLLBAR ──────────────────────────── */
+    ::-webkit-scrollbar { width: 2px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--pink); }
+
+    /* ── GRID (12 colunas, usado no site inteiro) ── */
+    .container {
+      max-width: var(--grid-max);
+      margin: 0 auto;
+      padding: 0 var(--grid-gutter);
+    }
+    .grid-12 {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: var(--grid-gap);
+    }
+
+    /* ── NAV ────────────────────────────────── */
+    nav {
+      position: relative;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px var(--grid-gutter) 0;
+    }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 19px; width: auto; }
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 10.5px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--ink);
+      padding: 10px 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+    .nav-cta:hover { background: var(--ink); color: var(--paper); }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero-light {
+      position: relative;
+      background: var(--paper);
+      padding-bottom: 0;
+    }
+    .hero-content {
+      max-width: var(--grid-max);
+      margin: 0 auto;
+      padding: 96px var(--grid-gutter) 72px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      column-gap: var(--grid-gap);
+      text-align: center;
+    }
+    .hero-h1 {
+      grid-column: 3 / 11;
+      font-family: var(--hn-display);
+      font-size: clamp(26px, 3.7vw, 50px);
+      line-height: 1.16;
+      color: var(--ink);
+      margin: 0 auto 36px;
+      opacity: 0;
+      animation: au .8s ease .15s forwards;
+    }
+    .hero-h1 .hn-a { display: block; font-weight: 300; }
+    .hero-h1 .hn-b { display: block; font-weight: 500; }
+    .hero-sub {
+      grid-column: 3 / 11;
+      width: 100%;
+      font-family: var(--hn);
+      font-weight: 200;
+      font-size: clamp(14px, 1.15vw, 16px);
+      line-height: 1.7;
+      color: var(--ink);
+      margin: 0 auto;
+      opacity: 0;
+      animation: au .8s ease .35s forwards;
+    }
+    .hero-cta-wrap {
+      grid-column: 1 / -1;
+      position: relative;
+      z-index: 5;
+      display: flex;
+      justify-content: center;
+      margin-top: 36px;
+      opacity: 0;
+      animation: ctaIn .8s ease .55s forwards;
+    }
+    .btn-pink {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--pink);
+      color: #fff;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      padding: 19px 32px;
+      border: none;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background .2s, transform .15s;
+    }
+    .btn-pink:hover { background: #B5086A; transform: translateY(-2px); }
+    .btn-pink .arrow { font-size: 14px; line-height: 1; }
+
+    /* ── HERO IMAGE ──────────────────────────── */
+    .hero-image {
+      position: relative;
+      height: 114.92vh;
+      min-height: 777px;
+      overflow: hidden;
+      background: var(--ink);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0;
+      animation: imgIn 1.6s cubic-bezier(.16,1,.3,1) .4s forwards;
+    }
+
+    /* ── GALLERY ─────────────────────────────── */
+    .gallery-wrap {
+      background: var(--paper);
+      padding: 12px 64px 0;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      position: relative;
+      z-index: 4;
+      margin-top: -10%;
+    }
+    .gallery figure {
+      position: relative;
+      aspect-ratio: 5/3;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .gallery figure:hover img { transform: scale(1.04); }
+
+    /* ── PROOF ───────────────────────────────── */
+    .proof {
+      background: var(--paper);
+      padding: 140px 64px 120px;
+      text-align: center;
+    }
+    .proof-q {
+      font-family: var(--hn-display);
+      font-weight: 300;
+      font-size: clamp(26px, 3.7vw, 50px);
+      line-height: 1.16;
+      color: var(--ink);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .proof-q strong { font-weight: 500; }
+
+    /* ── VIDEO ───────────────────────────────── */
+    .video-sec {
+      background: var(--paper);
+      padding: 0 64px 120px;
+    }
+    .section-kicker {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+    .video-shell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--ink);
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    .video-shell video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: .85;
+    }
+    /* ── PACOTE / URGÊNCIA ───────────────────── */
+    .pacote-sec {
+      background: var(--paper);
+      padding: 0 64px;
+    }
+    .pacote-h {
+      font-family: var(--hn-display);
+      font-weight: 300;
+      font-size: clamp(26px, 3.7vw, 50px);
+      line-height: 1.16;
+      max-width: 640px;
+      margin-bottom: 56px;
+    }
+    .pacote-h strong { font-weight: 500; }
+    .urgency {
+      background: var(--paper);
+      padding: 0 0 80px;
+      overflow: hidden;
+    }
+    .urgency-h {
+      font-family: var(--mono);
+      font-size: clamp(62px, calc(10.5vw + 10px), 178px);
+      line-height: clamp(64px, calc(10.5vw + 12px), 180px);
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: -.025em;
+    }
+    .urgency-h .ul1 { display: block; text-align: left; }
+    .urgency-h .ul2 { display: block; text-align: right; }
+    .urgency-h .ul3 { display: block; text-align: left; margin-left: 4%; }
+    .urgency-h .ul4 { display: block; text-align: right; }
+    .urgency-sub {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .09em;
+      color: #000000;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 56px;
+    }
+
+    /* ── FORM ────────────────────────────────── */
+    .form-sec {
+      background: var(--paper);
+      padding: 100px 72px;
+    }
+    .form-wrap { max-width: 540px; margin: 0 auto; }
+    .form-title {
+      font-family: var(--hn-display);
+      font-weight: 300;
+      font-size: clamp(26px, 3.7vw, 50px);
+      color: var(--ink);
+      line-height: 1.16;
+      margin-bottom: 56px;
+    }
+    .form-title strong { font-weight: 500; }
+    .fgroup { margin-bottom: 10px; }
+    .fgroup input {
+      width: 100%;
+      background: rgba(0,0,0,.04);
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,.12);
+      padding: 20px 0;
+      font-family: var(--hn);
+      font-size: 15px;
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .fgroup input::placeholder { color: var(--muted); }
+    .fgroup input:focus { border-color: var(--pink); }
+    .btn-submit {
+      width: 100%;
+      margin-top: 48px;
+      padding: 20px;
+      background: var(--pink);
+      border: none;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+      transition: background .2s;
+    }
+    .btn-submit:hover { background: #B5086A; }
+    .form-fine {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: #000000;
+      text-transform: uppercase;
+      text-align: center;
+      margin-top: 20px;
+      letter-spacing: .09em;
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      background: var(--pink);
+      padding: 40px 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer img {
+      height: 17px;
+      filter: brightness(0) invert(1);
+    }
+    .footer-note {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    /* ── KEYFRAMES ───────────────────────────── */
+    @keyframes au {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes lineUp {
+      from { transform: translateY(110%); }
+      to   { transform: translateY(0); }
+    }
+    @keyframes ctaIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes imgIn {
+      from { opacity: 0; transform: scale(1.04); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes heroImgIn {
+      from { opacity: 0; transform: scale(0.728); }
+      to   { opacity: 1; transform: scale(0.7); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────── */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .85s ease, transform .85s ease;
+    }
+    .rv.on { opacity: 1; transform: none; }
+    .rv-d1 { transition-delay: .1s; }
+    .rv-d2 { transition-delay: .2s; }
+    .rv-d3 { transition-delay: .3s; }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 20px 20px 0; }
+      .hero-h1 { grid-column: 1 / -1; }
+      .hero-sub { grid-column: 1 / -1; width: 100%; }
+      .hero-content { padding: 56px 24px 0; }
+      .hero-cta-wrap { transform: none; margin-top: 32px; }
+      .hero-light { padding-bottom: 28px; }
+      .btn-pink { white-space: normal; text-align: center; font-size: 13px; padding: 16px 22px; }
+      .gallery { grid-template-columns: 1fr; gap: 12px; margin-top: -30%; }
+      .gallery-wrap { padding: 6px 28px 0; }
+      .gallery figure { aspect-ratio: 5/3; }
+      .proof { padding: 100px 28px 80px; }
+      .video-sec, .pacote-sec, .form-sec { padding-left: 28px; padding-right: 28px; }
+      .urgency { padding-bottom: 56px; }
+      footer { padding: 36px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── HERO ── -->
+  <section class="hero-light">
+    <nav>
+      <a href="#" class="nav-logo">
+        <img src="public/logo/ativo-urbano-logo.svg" alt="Ativo Urbano" />
+      </a>
+      <a href="#contato" class="nav-cta">Contato</a>
+    </nav>
+
+    <div class="hero-content">
+      <h1 class="hero-h1">
+        <span class="hn-a">Empreendimento bem apresentado vende mais rápido e sustenta preço.</span>
+        <span class="hn-b">O seu está pronto pra isso?</span>
+      </h1>
+      <p class="hero-sub">
+        A Ativo Urbano está abrindo as primeiras vagas de 2027 com condição especial de fundação: render, identidade e redes sociais do lançamento em um único pacote, com prioridade de agenda pra quem entrar agora.
+      </p>
+      <div class="hero-cta-wrap">
+        <a href="#contato" class="btn-pink">
+          Garantir minha vaga na oferta de lançamento
+          <span class="arrow">↘</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="hero-image">
+    <img
+      src="public/images/fachada.avif"
+      alt="Render de empreendimento imobiliário ao entardecer em São Paulo"
+    />
+  </div>
+
+  <!-- ── GALLERY ── -->
+  <div class="gallery-wrap">
+    <div class="gallery">
+      <figure>
+        <img src="public/images/sala.avif" alt="Render de sala de estar com vista para a cidade" />
+      </figure>
+      <figure>
+        <img src="public/images/lavabo.avif" alt="Render de lavabo com travertino esculpido" />
+      </figure>
+      <figure>
+        <img src="public/images/suite.avif" alt="Render de suíte master ao entardecer" />
+      </figure>
+    </div>
+  </div>
+
+  <!-- ── PROOF ── -->
+  <section class="proof rv">
+    <p class="proof-q">
+      Cada render que entregamos carrega uma decisão de negócio por trás.
+      <strong>Não é ilustração, é argumento de venda.</strong>
+    </p>
+  </section>
+
+  <!-- ── VIDEO ── -->
+  <section class="video-sec rv" id="cases">
+    <div class="video-shell">
+      <video autoplay muted loop playsinline id="hero-video">
+        <source src="public/video/sample.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </section>
+
+  <!-- ── PACOTE / URGÊNCIA ── -->
+  <section class="pacote-sec rv" id="servicos">
+    <h2 class="pacote-h">
+      O <strong>pacote completo</strong> que nenhuma incorporadora encontra em um lugar só
+    </h2>
+  </section>
+
+  <section class="urgency rv">
+    <h2 class="urgency-h" aria-label="As vagas da oferta de lançamento são limitadas">
+      <span class="ul1">As vagas da</span>
+      <span class="ul2">oferta de</span>
+      <span class="ul3">lançamento</span>
+      <span class="ul4">são limitadas</span>
+    </h2>
+    <p class="urgency-sub">Oferta válida por tempo limitado e regida por número de vagas disponíveis por período. Consulte condições.</p>
+  </section>
+
+  <!-- ── FORM ── -->
+  <section class="form-sec" id="contato">
+    <div class="form-wrap">
+      <h2 class="form-title">
+        Deixe seu contato e <strong>garanta prioridade</strong> antes que a operação abra para o público em geral.
+      </h2>
+      <form id="contact-form" novalidate>
+        <div class="fgroup">
+          <input type="text"  name="nome"     placeholder="Seu nome"                  required />
+        </div>
+        <div class="fgroup">
+          <input type="email" name="email"    placeholder="E-mail corporativo"         required />
+        </div>
+        <div class="fgroup">
+          <input type="tel"   name="tel"      placeholder="Telefone / WhatsApp"       />
+        </div>
+        <div class="fgroup">
+          <input type="text"  name="empreen"  placeholder="Nome do empreendimento (opcional)" />
+        </div>
+        <button type="submit" class="btn-submit" id="submit-btn">
+          Garantir minha vaga agora
+        </button>
+        <p class="form-fine">Sem spam. Sem compromisso. Só uma conversa.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <img src="public/logo/ativo-urbano-logo.svg" alt="Ativo Urbano" />
+    <span class="footer-note">© 2026 Ativo Urbano</span>
+  </footer>
+
+  <script>
+    /* ── SCROLL REVEAL ── */
+    const rvEls = document.querySelectorAll('.rv');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+      });
+    }, { threshold: .1 });
+    rvEls.forEach(el => io.observe(el));
+
+    /* ── GALLERY STAGGER ── */
+    const figs = document.querySelectorAll('.gallery figure');
+    figs.forEach((f, i) => {
+      f.style.opacity = '0';
+      f.style.transform = 'translateY(20px)';
+      f.style.transition = `opacity .8s ease ${i * .15 + .1}s, transform .8s ease ${i * .15 + .1}s`;
+    });
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          figs.forEach(f => { f.style.opacity = '1'; f.style.transform = 'none'; });
+        }
+      });
+    }, { threshold: .05 }).observe(document.querySelector('.gallery'));
+
+
+    /* ── FORM ── */
+    document.getElementById('contact-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      btn.textContent = 'Vaga garantida ✓';
+      btn.style.background = '#12967A';
+      btn.disabled = true;
+    });
+  </script>
+</body>
+</html>
