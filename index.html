@@ -599,12 +599,33 @@
 
 
     /* ── FORM ── */
-    document.getElementById('contact-form').addEventListener('submit', e => {
+    document.getElementById('contact-form').addEventListener('submit', async e => {
       e.preventDefault();
+      const form = e.target;
       const btn = document.getElementById('submit-btn');
-      btn.textContent = 'Vaga garantida ✓';
-      btn.style.background = '#12967A';
+      const originalText = btn.textContent;
       btn.disabled = true;
+      btn.textContent = 'Enviando...';
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) throw new Error('Falha no envio');
+
+        btn.textContent = 'Vaga garantida ✓';
+        btn.style.background = '#12967A';
+        form.reset();
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+        alert('Não foi possível enviar agora. Tenta de novo em instantes ou chama no WhatsApp.');
+      }
     });
   </script>
 </body>
