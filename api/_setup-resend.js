@@ -27,6 +27,13 @@ export default async function handler(req, res) {
     return;
   }
 
+  if (req.query.verify === '1') {
+    await fetch(`https://api.resend.com/domains/${domain.id}/verify`, {
+      method: 'POST',
+      headers,
+    });
+  }
+
   const getRes = await fetch(`https://api.resend.com/domains/${domain.id}`, { headers });
   const full = await getRes.json();
   res.status(200).json({ created: false, domain: full });
